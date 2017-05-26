@@ -78,10 +78,11 @@ class build_chipmunk(build_ext, object):
             compiler_preargs.append(os.environ["CFLAGS"])
         else:
             if platform.system() == 'Linux':
+                architecture = platform.machine()
                 compiler_preargs += ['-fPIC', '-O3']
-                if get_arch() == 64 and not platform.machine().startswith('arm'):
+                if get_arch() == 64 and not (architecture.startswith('arm') or architecture.startswith('aarch')):
                     compiler_preargs += ['-m64']
-                elif get_arch() == 32 and not platform.machine().startswith('arm'):
+                elif get_arch() == 32 and not (architecture.startswith('arm') or architecture.startswith('aarch')):
                     compiler_preargs += ['-m32']
 
             elif platform.system() == 'Darwin':
